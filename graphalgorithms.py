@@ -1,4 +1,4 @@
-from queue import PriorityQueue
+from queue import PriorityQueue, Queue
 
 class Graph(object):
     '''
@@ -194,7 +194,7 @@ class GraphAlgorithms(object):
         related path cost.
 
         Args:
-            G (tuple(list,dictionary)): The G = (V,E).
+            G (tuple(list,dictionary)): The graph G = (V,E).
             l (dictionary): The edges lengths of the graph G = (V,E).
             s (string): Starting node.
 
@@ -245,6 +245,56 @@ class GraphAlgorithms(object):
                     priority_queue.updatePriority(distance[v], v)
                     
         return previous, distance
+         
+        
+    def bfs(self, G, s):
+        '''
+        BFS algorithm for finding the shortest paths in a graph.
+        Returns the shortest paths from node 's' to any other node and the
+        related path cost.
+
+        Args:
+            G (tuple(list,dictionary)): The graph G = (V,E).
+            s (string): Starting node.
+            
+            Note: The edges of the graph considered as having unit length.
+
+        Returns:
+            previous (dictionary): The previous data structure of the algorithm.
+            distance (dictionary): The distance data structure of the algorithm.
+            
+            Backtracking the previous structure we can get the shortest path from
+            the starting node to any other node. Path cost is the distance[terminating_node].
+        '''
+        
+        # Initializations
+        V = G[0]
+        E = G[1]
+        # Initialize distances as defined in the algorithm
+        distance = {key: float('inf') for key in V}
+        distance[s] = 0
+        
+        # FIFO queue contains nodes
+        Q = Queue()
+        # Initialize the queue as defined in the algorithm
+        Q.put(s)
+        
+        # Initialize the previous structure. This is for bactracking the shortest path.
+        # Is not included in the original algorithm.
+        previous = {}
+        
+        while not Q.empty():
+            u = Q.get()
+
+             # For all connected nodes v to the node u
+            for v in E[u]:
+                
+                if distance[v] == float('inf'):
+                    Q.put(v)
+                    distance[v] = distance[u] + 1
+                    previous[v] = u
+         
+        return previous, distance
         
         
 '''
@@ -253,7 +303,7 @@ Usage example code
 if __name__ == '__main__':
 
     '''
-    Example code for Dijkstra's algorithm.
+    Example code for the Dijkstra's algorithm.
     '''
     # Define the vertices and edges of the graph, in the structure 
     # the class Graph expects them
@@ -283,4 +333,36 @@ if __name__ == '__main__':
         if current == 's':
             done = True
     
-    print('Shortest path from \'s\' to \'t\' is: ', shortest_path, ' with cost ', cost['t'], sep = '')
+    print('Dijkstra: Shortest path from \'s\' to \'t\' is: ', shortest_path, ' with cost ', cost['t'], sep = '')
+    
+    '''
+    Example code for the BFS algorithm.
+    '''
+    # Define the vertices and edges of the graph, in the structure 
+    # the class Graph expects them
+    vertices = ['a', 'b', 'c', 'd', 'e', 'f', 's', 't']   
+    edges_with_lengths = {'s': [('a', 1), ('d', 1), ('e', 1)], 
+                          'a': [('b', 1)],
+                          'b': [('c', 1)],
+                          'c': [('t', 1)],
+                          'd': [('t', 1)],
+                          'e': [('f', 1)],
+                          'f': [('t', 1)]}
+    
+    # Create the graph object G = (V, E) given the V and E
+    g = Graph(vertices, edges_with_lengths)
+    
+    # Run BFS algorithm for the defined graph
+    paths, cost = GraphAlgorithms().bfs(G = (g.getVertices(), g.getEdges()), s = 's')
+
+    done = False
+    shortest_path = ['t']
+    current = 't'
+    while not done:
+        shortest_path.insert(0, paths[current])       
+        current = shortest_path[0]
+        if current == 's':
+            done = True
+    
+    print('BFS: Shortest path from \'s\' to \'t\' is: ', shortest_path, ' with cost ', cost['t'], sep = '')
+    
