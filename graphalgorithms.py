@@ -8,7 +8,7 @@ class Graph(object):
         vertices (list)   : A list containing the nodes of the graph.
                             i.e. ['a', 'b', 'c', 'd']
                             
-        edges (dictionary): A dictionary containing the edges of the graph with
+        edges_with_lengths (dictionary): A dictionary containing the edges of the graph with
                             their lengths.
                             i.e. 
                             {'a': [('b', 10), ('c', 20)], 
@@ -23,27 +23,38 @@ class Graph(object):
                              'c': [('a',20)]}
 
     Attributes:
-        __vertices (list)   : Where vertices are stored.
-        __edges (dictionary): Where edges are stored.
-        
+        __vertices (list)     : Where vertices are stored.
+                                Copy the value of the vertices.
+        __edges (dictionary)  : Where edges are stored.
+                                Taken from the edges_with_lengths: i.e. {'a': ['b', 'c'], 'd': ['a']}
+        __lengths (dictionary): Where lengths are stored.
+                                Taken from the edges_with_lengths: i.e. {'a': {'b': 10, 'c': 20}, 'd': {'a': 30}}
+                                
     Methods:
-        getVertices() : Returns the value of __vertices (list)
-        getEdges()    : Returns the value of __edges (dictionary)
+        getVertices() : Returns the vertices of the graph (V)
+        getEdges()    : Returns the edges of the graph (E)
+        getLengths()  : Returns the length of the edges (le)
     '''
     
-    def __init__(self, vertices, edges):
+    def __init__(self, vertices, edges_with_lengths):
         
+        # Store vertices
         self.__vertices = vertices
-        self.__edges = edges
-        
+            
         # If a vertex is missing from the edges dictionary then add it with none connected nodes.
         for v in self.__vertices:
             try:
-                self.__edges[v]
+                edges_with_lengths[v]
             except:
-                self.__edges[v] = []
-        
-        
+                edges_with_lengths[v] = []
+                
+        # Store edges and lengths
+        self.__edges = {}
+        self.__lengths = {}
+        for key, value in zip(edges_with_lengths.keys(), edges_with_lengths.values()):
+            self.__edges[key] = [e[0] for e in value]
+            self.__lengths[key] = {e[0]: e[1] for e in value}
+            
     
     def getVertices(self):
         '''
@@ -74,11 +85,29 @@ class Graph(object):
             -
 
         Returns:
-            edges (dictionary): The graph edges with their lengths.
+            edges (dictionary): The graph edges.
             See class docstring for the dictionary details.
         '''
     
         return self.__edges
+        
+        
+    def getLengths(self):
+        '''
+        Returns the edges lengths of the graph (le from the G = (V, E)).
+        
+        Args:
+            -
+
+        Raises:
+            -
+
+        Returns:
+            lengths (dictionary): The graph edges with their lengths.
+            See class docstring for the dictionary details.
+        '''
+    
+        return self.__lengths
         
         
 
@@ -158,19 +187,16 @@ class GraphAlgorithms(object):
         pass
         
         
-    def dijkstra(self, g, s):
+    def dijkstra(self, G, l, s):
         '''
         Dijkstra's algorithm for finding the shortest paths in a graph.
         Returns the shortest paths from node 's' to any other node and the
         related path cost.
 
         Args:
-            g (Graph object): The graph G = (V,E).
+            G (tuple(list,dictionary)): The G = (V,E).
+            l (dictionary): The edges lengths of the graph G = (V,E).
             s (string): Starting node.
-            
-            Note: In the original algorithm, the lengths of the edges are
-                  passed as a parameter (l), in this implementation the lengths
-                  are passed with the Graph object (g.getEdges()).
 
         Raises:
             'Non positive edge length found.' : Edge lengths in the Dijkstra's 
@@ -185,17 +211,19 @@ class GraphAlgorithms(object):
         '''
     
         # Initializations
+        V = G[0]
+        E = G[1]
         # Initialize distances as defined in the algorithm
-        distance = {key: float('inf') for key in g.getVertices()}
+        distance = {key: float('inf') for key in V}
         distance[s] = 0
         
         # Initialize the previous structure as defined in the algorithm
-        previous = {key: None for key in g.getVertices()}
+        previous = {key: None for key in V}
         
         # Updatable priority queue contains items of the type (priority, node)
         priority_queue = UpdatablePriorityQueue()
         # Initialize the queue as defined in the algorithm
-        for v in g.getVertices():
+        for v in V:
             priority_queue.put((distance[v], v))
         
         # Loop until all the nodes are explored
@@ -203,13 +231,14 @@ class GraphAlgorithms(object):
             u = priority_queue.get()[1]
             
             # For all connected nodes v to the node u with length l
-            for v, l in g.getEdges()[u]:
+            for v in E[u]:
+
                 # Algorithm supports only positive lengths
-                if l <= 0:
-                    raise ValueError('Non positive edge length (' + str(l) + ') found.')
+                if l[u][v] <= 0:
+                    raise ValueError('Non positive edge length (' + str(l[u][v]) + ') found.')
                     
-                if distance[v] > distance[u] + l:
-                    distance[v] = distance[u] + l
+                if distance[v] > distance[u] + l[u][v]:
+                    distance[v] = distance[u] + l[u][v]
                     previous[v] = u
                     
                     # Update priority
@@ -228,20 +257,20 @@ if __name__ == '__main__':
     '''
     # Define the vertices and edges of the graph, in the structure 
     # the class Graph expects them
-    V = ['a', 'b', 'c', 'd', 'e', 'f', 's', 't']   
-    E = {'s': [('a', 100), ('c', 90), ('e', 101)], 
-         'a': [('b', 100)],
-         'b': [('t', 5)],
-         'c': [('d', 105)],
-         'd': [('t', 10)],
-         'e': [('f', 101)],
-         'f': [('t', 1)]}
+    vertices = ['a', 'b', 'c', 'd', 'e', 'f', 's', 't']   
+    edges_with_lengths = {'s': [('a', 100), ('c', 90), ('e', 101)], 
+                          'a': [('b', 100)],
+                          'b': [('t', 5)],
+                          'c': [('d', 105)],
+                          'd': [('t', 10)],
+                          'e': [('f', 101)],
+                          'f': [('t', 1)]}
     
     # Create the graph object G = (V, E) given the V and E
-    g = Graph(V, E)
+    g = Graph(vertices, edges_with_lengths)
     
     # Run Dijkstra's algorithm for the defined graph
-    paths, cost = GraphAlgorithms().dijkstra(g = g, s = 's')
+    paths, cost = GraphAlgorithms().dijkstra(G = (g.getVertices(), g.getEdges()), l = g.getLengths(), s = 's')
     
     # Back tracking the paths, we can get the shortest path for any destination node
     # Example: Get the shortest path from 's' to 't'
