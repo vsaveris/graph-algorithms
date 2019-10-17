@@ -42,7 +42,12 @@ Shortest path from 'B' to 'S' is: ['B', 'A', 'S'] with cost 2
 
 In the running example, the Dijkstra's algorithm calculates all the shortest paths from the starting node `A`. The output of the algorith is:
 ```
-PUT output
+$python demoga.py -a dijkstra
+Dijkstra shortest paths for the given graph, where starting node is 'A':
+Shortest path from 'A' to 'B' is: ['A', 'C', 'B'] with cost 3
+Shortest path from 'A' to 'C' is: ['A', 'C'] with cost 2
+Shortest path from 'A' to 'D' is: ['A', 'C', 'B', 'D'] with cost 6
+Shortest path from 'A' to 'E' is: ['A', 'C', 'B', 'E'] with cost 7
 ``` 
 
 ## Prerequisites
