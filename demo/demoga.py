@@ -58,31 +58,34 @@ def demoBfs():
     '''
     # Define the vertices and edges of the graph, in the structure 
     # the class Graph expects them
-    vertices = ['a', 'b', 'c', 'd', 'e', 'f', 's', 't']   
-    edges_with_lengths = {'s': [('a', 1), ('d', 1), ('e', 1)], 
-                          'a': [('b', 1)],
-                          'b': [('c', 1)],
-                          'c': [('t', 1)],
-                          'd': [('t', 1)],
-                          'e': [('f', 1)],
-                          'f': [('t', 1)]}
+    vertices = ['A', 'B', 'C', 'D', 'E', 'S']   
+    edges_with_lengths = {'A': [('S', 1), ('B', 1)], 
+                          'B': [('A', 1), ('C', 1)],
+                          'C': [('B', 1), ('S', 1)],
+                          'D': [('E', 1), ('S', 1)],
+                          'E': [('D', 1), ('S', 1)],
+                          'S': [('E', 1), ('D', 1), ('C', 1), ('A', 1)]}
     
     # Create the graph object G = (V, E) given the V and E
     g = ga.Graph(vertices, edges_with_lengths)
     
     # Run BFS algorithm for the defined graph
-    paths, cost = ga.GraphAlgorithms().bfs(G = (g.getVertices(), g.getEdges()), s = 's')
+    paths, cost = ga.GraphAlgorithms().bfs(G = (g.getVertices(), g.getEdges()), s = 'B')
     
-    done = False
-    shortest_path = ['t']
-    current = 't'
-    while not done:
-        shortest_path.insert(0, paths[current])       
-        current = shortest_path[0]
-        if current == 's':
-            done = True
-    
-    print('BFS: Shortest path from \'s\' to \'t\' is: ', shortest_path, ' with cost ', cost['t'], sep = '')
+    print('BFS shortest paths for the given graph, where starting node is \'B\':')
+    start_node = 'B'
+    for end_node in ['A', 'C', 'D', 'E', 'S']:
+        done = False
+        shortest_path = [end_node]
+        current = end_node
+        while not done:
+            shortest_path.insert(0, paths[current])       
+            current = shortest_path[0]
+            if current == start_node:
+                done = True
+        
+        print('Shortest path from \'', start_node, '\' to \'', end_node, '\' is: ', shortest_path, 
+              ' with cost ', cost[end_node], sep = '')
 
 
 if __name__ == '__main__':
