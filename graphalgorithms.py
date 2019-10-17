@@ -1,3 +1,20 @@
+'''
+File name: graphalgorithms.py
+           Graph Algorithms implementations. Contains the following classes:
+           - GraphAlgorithms: Graph algorithms implementation class. 
+           - Graph: Graph data structure. Supplementary class.
+           - UpdatablePriorityQueue: Extends PriorityQueue python class.
+           
+Author: Vasileios Saveris
+enail: vsaveris@gmail.com
+
+License: MIT
+
+Date last modified: 17.10.2019
+
+Python Version: 3.6
+'''
+
 from queue import PriorityQueue, Queue
 
 class Graph(object):
