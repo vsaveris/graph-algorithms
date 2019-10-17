@@ -312,3 +312,67 @@ class GraphAlgorithms(object):
                     previous[v] = u
          
         return previous, distance
+        
+        
+    def dfs(self, G):
+        '''
+        DFS algorithm for revealing a wealth of information about a graph. 
+        Returns information about the feasible paths among all the nodes in 
+        the graph.
+
+        Args:
+            G (tuple(list,dictionary)): The graph G = (V,E).
+
+        Returns:
+            pre (dictionary): The time of the first discovery to each node.
+            post (dictionary): The time of the last departure from each node.
+            ccnum (dictionary): The connected component id of each node.
+        '''
+
+        # Nested functions used only by DFS
+        # See DPV, Algorithms, Chapter 3.2
+        def previsit(v):
+            nonlocal clock
+            nonlocal cc
+            pre[v] = clock
+            clock = clock +  1
+            ccnum[v] = cc
+        
+        def postvisit(v):
+            nonlocal clock
+            post[v] = clock
+            clock += 1
+        
+        def explore(v):
+            visited[v] = True
+            previsit(v)
+            for u in E[v]:
+                if not visited[u]:
+                    explore(u)
+            postvisit(v)
+                    
+        
+        # Initializations
+        V = G[0]
+        E = G[1]
+        
+        # Time of first visit to a node
+        pre = {}
+        # Time of final departure from a node
+        post = {}
+        # Time
+        clock = 1
+        
+        # Connected components identification
+        ccnum = {}
+        cc = 0
+
+        # Visited is initialized to False for all vertices of the graph
+        visited = {v: False for v in V}
+        
+        for v in V:
+            if not visited[v]:
+                cc += 1
+                explore(v)
+                
+        return pre, post, ccnum

@@ -87,23 +87,60 @@ def demoBfs():
         
         print('Shortest path from \'', start_node, '\' to \'', end_node, '\' is: ', shortest_path, 
               ' with cost ', cost[end_node], sep = '')
-
+              
+              
+def demoDfs():
+    '''
+    Example code for the DFS algorithm.
+    '''
+    # Define the vertices and edges of the graph, in the structure 
+    # the class Graph expects them
+    vertices = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L']   
+    edges_with_lengths = {'A': [('B', 1), ('E', 1)], 
+                          'B': [('A', 1)],
+                          'C': [('D', 1), ('G', 1), ('H', 1)],
+                          'D': [('C', 1), ('H', 1)],
+                          'E': [('A', 1), ('I', 1), ('J', 1)],
+                          'F': [],
+                          'G': [('C', 1), ('H', 1), ('K', 1)],
+                          'H': [('D', 1), ('L', 1), ('C', 1), ('G', 1), ('K', 1)],
+                          'I': [('E', 1), ('J', 1)],
+                          'J': [('E', 1), ('I', 1)],
+                          'K': [('G', 1), ('H', 1)],
+                          'L': [('H', 1)]}
+    
+    # Create the graph object G = (V, E) given the V and E
+    g = ga.Graph(vertices, edges_with_lengths)
+    
+    # Run BFS algorithm for the defined graph
+    previsit, postvisit, ccnum  = ga.GraphAlgorithms().dfs(G = (g.getVertices(), g.getEdges()))
+    
+    print('DFS output for the given graph:')
+    for node in vertices:
+        print('node \'{:1}\': first_discovery_time = {:2},last_departure_time = {:2}, connected_component = {:2}'.\
+              format(node, previsit[node], postvisit[node], ccnum[node]))
+    
+    for i in range(1, max(ccnum.values()) + 1):
+        print('connected component ', i, ': ', [k for k,v in ccnum.items() if v == i], sep = '')
+        
 
 if __name__ == '__main__':
 
     # Parsing input arguments
     description_message = 'Demonstration script for the GraphAlgorithms class'
-    epilog_message = 'Supported values for \'algorithm\' are (\'bfs\',\'dijkstra\')\n\n' +\
+    epilog_message = 'Supported values for \'algorithm\' are (\'dfs\', \'bfs\',\'dijkstra\')\n\n' +\
                     'Example: \npython demoga.py -a dijkstra'
     args_parser = argparse.ArgumentParser(description = description_message, epilog = epilog_message,
                 formatter_class=argparse.RawTextHelpFormatter)
     args_parser.add_argument('-a', action = 'store', required = True, help = 'demonstration algorithm',
-                            choices = ('bfs', 'dijkstra'), metavar = 'algorithm')
+                            choices = ('dfs', 'bfs', 'dijkstra'), metavar = 'algorithm')
     args = args_parser.parse_args()
       
     # Execute the requested demonstration code
     if args.a == 'bfs':
         demoBfs()
+    elif args.a == 'dfs':
+        demoDfs()
     elif args.a == 'dijkstra':
         demoDijkstra()
     else:
