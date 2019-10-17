@@ -26,7 +26,9 @@ python demoga.py -a dijkstra
 1. [python 3.6](https://www.python.org/downloads/release/python-369/)
 
 ## References
-1. *Introduction to Algorithms, 3rd Edition, Chapter VI, Graph algorithms*
-2. *DPV Algorithms, Chapter 3, Decompositions of graphs*
-3. *DPV Algorithms, Chapter 4.4, Paths in graphs*
+1. *Introduction to Algorithms, 3rd Edition. T. H. Cormen, C. E. Leiserson, R. L. Rivest, C. Stein. Chapter VI, Graph Algorithms*
+2. *Algorithms. S. Dasgupta, C. Papadimitriou, U. Vazirani. Chapter 3, Decompositions of Graphs*
+3. *Algorithms. S. Dasgupta, C. Papadimitriou, U. Vazirani. Chapter 4, Paths in Graphs*
+4. *Algorithms. S. Dasgupta, C. Papadimitriou, U. Vazirani. Chapter 5, Greedy Algorithms*
+5. *Algorith Design, 1st Edition. J. Kleinberg, E. Tardos. Chapter 3, Graphs*
 
