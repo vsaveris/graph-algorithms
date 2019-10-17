@@ -23,33 +23,34 @@ def demoDijkstra():
     '''
     # Define the vertices and edges of the graph, in the structure 
     # the class Graph expects them
-    vertices = ['a', 'b', 'c', 'd', 'e', 'f', 's', 't']   
-    edges_with_lengths = {'s': [('a', 100), ('c', 90), ('e', 101)], 
-                          'a': [('b', 100)],
-                          'b': [('t', 5)],
-                          'c': [('d', 105)],
-                          'd': [('t', 10)],
-                          'e': [('f', 101)],
-                          'f': [('t', 1)]}
+    vertices = ['A', 'B', 'C', 'D', 'E']   
+    edges_with_lengths = {'A': [('B', 4), ('C', 2)], 
+                          'B': [('D', 2), ('E', 3), ('C', 3)],
+                          'C': [('B', 1), ('E', 5), ('D', 4)],
+                          'D': [],
+                          'E': [('D', 1)]}
 
     # Create the graph object G = (V, E) given the V and E
     g = ga.Graph(vertices, edges_with_lengths)
     
     # Run Dijkstra's algorithm for the defined graph
-    paths, cost = ga.GraphAlgorithms().dijkstra(G = (g.getVertices(), g.getEdges()), l = g.getLengths(), s = 's')
+    paths, cost = ga.GraphAlgorithms().dijkstra(G = (g.getVertices(), g.getEdges()), l = g.getLengths(), s = 'A')
     
     # Back tracking the paths, we can get the shortest path for any destination node
-    # Example: Get the shortest path from 's' to 't'
-    done = False
-    shortest_path = ['t']
-    current = 't'
-    while not done:
-        shortest_path.insert(0, paths[current])       
-        current = shortest_path[0]
-        if current == 's':
-            done = True
-    
-    print('Dijkstra: Shortest path from \'s\' to \'t\' is: ', shortest_path, ' with cost ', cost['t'], sep = '')
+    print('Dijkstra shortest paths for the given graph, where starting node is \'A\':')
+    start_node = 'A'
+    for end_node in ['B', 'C', 'D', 'E']:
+        done = False
+        shortest_path = [end_node]
+        current = end_node
+        while not done:
+            shortest_path.insert(0, paths[current])       
+            current = shortest_path[0]
+            if current == start_node:
+                done = True
+        
+        print('Shortest path from \'', start_node, '\' to \'', end_node, '\' is: ', shortest_path, 
+              ' with cost ', cost[end_node], sep = '')
     
 
 def demoBfs():
