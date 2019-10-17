@@ -21,6 +21,23 @@ Supported values for 'algorithm' are ('bfs','dijkstra')
 Example:
 python demoga.py -a dijkstra
 ```
+The graphs used in each algorithm case for the demonstration purposes are shown below.
+
+### BFS Demonstration Graph
+![](/images/dfs_demo_graph.PNG?raw=true)
+
+In the running example, the BFS algorithm calculates all the shortest paths from the starting node `B`. The output of the algorith is:
+```
+PUT output
+``` 
+
+### Dijkstra Demonstration Graph
+![](/images/dijkstra_demo_graph.PNG?raw=true)
+
+In the running example, the Dijkstra's algorithm calculates all the shortest paths from the starting node `A`. The output of the algorith is:
+```
+PUT output
+``` 
 
 ## Prerequisites
 1. [python 3.6](https://www.python.org/downloads/release/python-369/)
