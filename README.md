@@ -28,7 +28,13 @@ The graphs used in each algorithm case for the demonstration purposes are shown 
 
 In the running example, the BFS algorithm calculates all the shortest paths from the starting node `B`. The output of the algorith is:
 ```
-PUT output
+$python demoga.py -a bfs
+BFS shortest paths for the given graph, where starting node is 'B':
+Shortest path from 'B' to 'A' is: ['B', 'A'] with cost 1
+Shortest path from 'B' to 'C' is: ['B', 'C'] with cost 1
+Shortest path from 'B' to 'D' is: ['B', 'A', 'S', 'D'] with cost 3
+Shortest path from 'B' to 'E' is: ['B', 'A', 'S', 'E'] with cost 3
+Shortest path from 'B' to 'S' is: ['B', 'A', 'S'] with cost 2
 ``` 
 
 ### Dijkstra Demonstration Graph
