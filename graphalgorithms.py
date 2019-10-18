@@ -165,7 +165,7 @@ class UpdatablePriorityQueue(PriorityQueue):
         Returns:
             edges (dictionary)
         '''
-        
+
         # The updated queue
         updated_queue = PriorityQueue()
 
@@ -178,7 +178,7 @@ class UpdatablePriorityQueue(PriorityQueue):
                 updated_queue.put(item)
             else:
                 updated_queue.put((new_priority, key))
-                
+
         # Put the updated items in the original queue. Copy was not used for keeping
         # the object unchanged.
         while not updated_queue.empty():
@@ -207,7 +207,7 @@ class GraphAlgorithms(object):
     def dijkstra(self, G, l, s):
         '''
         Dijkstra's algorithm for finding the shortest paths in a graph.
-        Returns the shortest paths from node 's' to any other node and the
+        Returns the shortest paths from node 's' to any other node together with the
         related path cost.
 
         Args:
@@ -257,17 +257,17 @@ class GraphAlgorithms(object):
                 if distance[v] > distance[u] + l[u][v]:
                     distance[v] = distance[u] + l[u][v]
                     previous[v] = u
-                    
+
                     # Update priority
-                    priority_queue.updatePriority(distance[v], v)
-                    
+                    priority_queue.updatePriority(v, distance[v])
+
         return previous, distance
          
         
     def bfs(self, G, s):
         '''
         BFS algorithm for finding the shortest paths in a graph.
-        Returns the shortest paths from node 's' to any other node and the
+        Returns the shortest paths from node 's' to any other node together with the
         related path cost.
 
         Args:
@@ -376,3 +376,43 @@ class GraphAlgorithms(object):
                 explore(v)
                 
         return pre, post, ccnum
+        
+        
+    def bellmanFord(self, G, l, s):
+        '''
+        Bellman-Ford algorithm for finding the shortest paths in a graph.
+        Returns the shortest paths from node 's' to any other node together
+        with the related path cost.
+
+        Args:
+            G (tuple(list,dictionary)): The graph G = (V,E).
+            l (dictionary): The edges lengths of the graph G = (V,E).
+            s (string): Starting node.
+
+        Returns:
+            previous (dictionary): The previous data structure of the algorithm.
+            distance (dictionary): The distance data structure of the algorithm.
+            
+            Backtracking the previous structure we can get the shortest path from
+            the starting node to any other node. Path cost is the distance[terminating_node].
+        '''
+
+        # Initializations
+        V = G[0]
+        E = G[1]
+        # Initialize distances as defined in the algorithm
+        distance = {key: float('inf') for key in V}
+        distance[s] = 0
+        
+        # Initialize the previous structure as defined in the algorithm
+        previous = {key: None for key in V}
+        
+        # Repeat |V| - 1 times
+        for _ in range(len(V)-1):
+            for u in V:
+                for v in E[u]:
+                    if distance[v] > distance[u] + l[u][v]:
+                        distance[v] = distance[u] + l[u][v]
+                        previous[v] = u
+                    
+        return previous, distance
