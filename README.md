@@ -4,6 +4,7 @@ Implementation of graph algorithms in python (file: `graphalgorithms.py`)
 * **Depth-first search (DFS)**: DFS algorithm is an algorithm for revealing a wealth of information about a graph G = (V,E). The time complexity of the algorithm is O(|V|+|E|).
 * **Breadth-first search (BFS)**: BFS algorithm is an algorithm for finding the shortest paths in any graph G = (V,E) whose edges have unit length. The time complexity of the algorithm is O(|V|+|E|).
 * **Dijkstra's Algorithm**: Dijkstra's algorithm is an algorithm for finding the shortest paths in any graph G = (V,E) whose edges lengths are positive numbers. The time complexity of the algorithm is O((|V|+|E|)log|V|), when using a priority queue.
+* **Bellman-Ford Algorithm**: Bellman-Ford algorithm is an algorithm for finding the shortest paths in any graph G = (V,E) whose edges lengths can be also negative numbers. The time complexity of the algorithm is O((|V||E|).
 
 ## Demonstration
 Inside the `demo` folder there is a demonstration script (`demoga.py`), including usage examples for the `GraphAlgorithms` class.
@@ -17,7 +18,7 @@ optional arguments:
   -h, --help    show this help message and exit
   -a algorithm  demonstration algorithm
 
-Supported values for 'algorithm' are ('dfs', 'bfs','dijkstra')
+Supported values for 'algorithm' are ('dfs', 'bfs', 'dijkstra', 'bellman_ford')
 
 Example:
 python demoga.py -a dijkstra
@@ -25,7 +26,7 @@ python demoga.py -a dijkstra
 The graphs used in each algorithm case for the demonstration purposes are shown below.
 
 ### DFS Demonstration Graph
-![](/images/dfs_demo_graph.PNG?raw=true)
+![](/images/demo_dfs_graph.PNG?raw=true)
 
 In the running example, the DFS algorithm reveals all the connected components of the given graph together with the first discovery and last departure times for each node. The output of the algorithm is:
 ```
@@ -49,7 +50,7 @@ connected component 3: ['F']
 ``` 
 
 ### BFS Demonstration Graph
-![](/images/bfs_demo_graph.PNG?raw=true)
+![](/images/demo_bfs_graph.PNG?raw=true)
 
 In the running example, the BFS algorithm calculates all the shortest paths from the starting node `B`. The output of the algorithm is:
 ```
@@ -63,7 +64,7 @@ Shortest path from 'B' to 'S' is: ['B', 'A', 'S'] with cost 2
 ``` 
 
 ### Dijkstra Demonstration Graph
-![](/images/dijkstra_demo_graph.PNG?raw=true)
+![](/images/demo_dijkstra_graph.PNG?raw=true)
 
 In the running example, the Dijkstra's algorithm calculates all the shortest paths from the starting node `A`. The output of the algorithm is:
 ```
@@ -71,8 +72,25 @@ $python demoga.py -a dijkstra
 Dijkstra shortest paths for the given graph, where starting node is 'A':
 Shortest path from 'A' to 'B' is: ['A', 'C', 'B'] with cost 3
 Shortest path from 'A' to 'C' is: ['A', 'C'] with cost 2
-Shortest path from 'A' to 'D' is: ['A', 'C', 'B', 'D'] with cost 6
-Shortest path from 'A' to 'E' is: ['A', 'C', 'B', 'E'] with cost 7
+Shortest path from 'A' to 'D' is: ['A', 'C', 'B', 'D'] with cost 5
+Shortest path from 'A' to 'E' is: ['A', 'C', 'B', 'E'] with cost 6
+``` 
+
+### Bellman-Ford Demonstration Graph
+![](/images/demo_bellman_ford_graph.PNG?raw=true)
+
+In the running example, the Bellman-Ford algorithm calculates all the shortest paths from the starting node `S`. The output of the algorithm is:
+```
+$python demoga.py -a bellman_ford
+Bellman-Ford shortest paths for the given graph, where starting node is 'S':
+Shortest path from 'S' to 'A' is: ['S', 'G', 'F', 'A'] with cost 5
+Shortest path from 'S' to 'B' is: ['S', 'G', 'F', 'A', 'E', 'B'] with cost 5
+Shortest path from 'S' to 'C' is: ['S', 'G', 'F', 'A', 'E', 'B', 'C'] with cost 6
+Shortest path from 'S' to 'D' is: ['S', 'G', 'F', 'A', 'E', 'B', 'C', 'D'] with cost 9
+Shortest path from 'S' to 'E' is: ['S', 'G', 'F', 'A', 'E'] with cost 7
+Shortest path from 'S' to 'F' is: ['S', 'G', 'F'] with cost 9
+Shortest path from 'S' to 'G' is: ['S', 'G'] with cost 8
+
 ``` 
 
 ## Prerequisites
@@ -82,6 +100,5 @@ Shortest path from 'A' to 'E' is: ['A', 'C', 'B', 'E'] with cost 7
 1. *Introduction to Algorithms, 3rd Edition. T. H. Cormen, C. E. Leiserson, R. L. Rivest, C. Stein. Chapter VI, Graph Algorithms*
 2. *Algorithms. S. Dasgupta, C. Papadimitriou, U. Vazirani. Chapter 3, Decompositions of Graphs*
 3. *Algorithms. S. Dasgupta, C. Papadimitriou, U. Vazirani. Chapter 4, Paths in Graphs*
-4. *Algorithms. S. Dasgupta, C. Papadimitriou, U. Vazirani. Chapter 5, Greedy Algorithms*
-5. *Algorith Design, 1st Edition. J. Kleinberg, E. Tardos. Chapter 3, Graphs*
+4. *Algorith Design, 1st Edition. J. Kleinberg, E. Tardos. Chapter 3, Graphs*
 

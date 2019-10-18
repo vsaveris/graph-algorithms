@@ -112,7 +112,7 @@ def demoDfs():
     # Create the graph object G = (V, E) given the V and E
     g = ga.Graph(vertices, edges_with_lengths)
     
-    # Run BFS algorithm for the defined graph
+    # Run DFS algorithm for the defined graph
     previsit, postvisit, ccnum  = ga.GraphAlgorithms().dfs(G = (g.getVertices(), g.getEdges()))
     
     print('DFS output for the given graph:')
@@ -124,16 +124,55 @@ def demoDfs():
         print('connected component ', i, ': ', [k for k,v in ccnum.items() if v == i], sep = '')
         
 
+def demoBellmanFord():    
+    '''
+    Example code for the Bellman-Ford algorithm.
+    '''
+    # Define the vertices and edges of the graph, in the structure 
+    # the class Graph expects them
+    vertices = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'S']   
+    edges_with_lengths = {'A': [('E', 2)], 
+                          'B': [('A', 1), ('C', 1)],
+                          'C': [('D', 3)],
+                          'D': [('E', -1)],
+                          'E': [('B', -2)],
+                          'F': [('A', -4), ('E', -1)],
+                          'G': [('F', 1)],
+                          'S': [('A', 10), ('G', 8)]}
+
+    # Create the graph object G = (V, E) given the V and E
+    g = ga.Graph(vertices, edges_with_lengths)
+    
+    # Run Bellman-Ford algorithm for the defined graph
+    paths, cost = ga.GraphAlgorithms().bellmanFord(G = (g.getVertices(), g.getEdges()), l = g.getLengths(), s = 'S')
+
+    # Back tracking the paths, we can get the shortest path for any destination node
+    print('Bellman-Ford shortest paths for the given graph, where starting node is \'S\':')
+    start_node = 'S'
+    for end_node in ['A', 'B', 'C', 'D', 'E', 'F', 'G']:
+        done = False
+        shortest_path = [end_node]
+        current = end_node
+        while not done:
+            shortest_path.insert(0, paths[current])       
+            current = shortest_path[0]
+            if current == start_node:
+                done = True
+        
+        print('Shortest path from \'', start_node, '\' to \'', end_node, '\' is: ', shortest_path, 
+              ' with cost ', cost[end_node], sep = '')
+
+
 if __name__ == '__main__':
 
     # Parsing input arguments
     description_message = 'Demonstration script for the GraphAlgorithms class'
-    epilog_message = 'Supported values for \'algorithm\' are (\'dfs\', \'bfs\',\'dijkstra\')\n\n' +\
+    epilog_message = 'Supported values for \'algorithm\' are (\'dfs\', \'bfs\', \'dijkstra\', \'bellman_ford\')\n\n' +\
                     'Example: \npython demoga.py -a dijkstra'
     args_parser = argparse.ArgumentParser(description = description_message, epilog = epilog_message,
                 formatter_class=argparse.RawTextHelpFormatter)
     args_parser.add_argument('-a', action = 'store', required = True, help = 'demonstration algorithm',
-                            choices = ('dfs', 'bfs', 'dijkstra'), metavar = 'algorithm')
+                            choices = ('dfs', 'bfs', 'dijkstra', 'bellman_ford'), metavar = 'algorithm')
     args = args_parser.parse_args()
       
     # Execute the requested demonstration code
@@ -143,5 +182,7 @@ if __name__ == '__main__':
         demoDfs()
     elif args.a == 'dijkstra':
         demoDijkstra()
+    elif args.a == 'bellman_ford':
+        demoBellmanFord()
     else:
         print('Demonstration code for algorithm \'', args.a, '\' is missing', sep = '')
