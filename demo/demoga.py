@@ -163,16 +163,24 @@ def demoBellmanFord():
               ' with cost ', cost[end_node], sep = '')
 
 
+def demoKruskal():    
+    '''
+    Example code for the Kruskal algorithm.
+    '''
+    
+    raise NotImplementedError()
+    
+
 if __name__ == '__main__':
 
     # Parsing input arguments
-    description_message = 'Demonstration script for the GraphAlgorithms class'
-    epilog_message = 'Supported values for \'algorithm\' are (\'dfs\', \'bfs\', \'dijkstra\', \'bellman_ford\')\n\n' +\
+    description_message = 'Demonstration script for the Graph Algorithms'
+    epilog_message = 'Supported values for \'algorithm\' are (\'dfs\', \'bfs\', \'dijkstra\', \'bellman_ford\', \'kruskal\')\n\n' +\
                     'Example: \npython demoga.py -a dijkstra'
     args_parser = argparse.ArgumentParser(description = description_message, epilog = epilog_message,
                 formatter_class=argparse.RawTextHelpFormatter)
     args_parser.add_argument('-a', action = 'store', required = True, help = 'demonstration algorithm',
-                            choices = ('dfs', 'bfs', 'dijkstra', 'bellman_ford'), metavar = 'algorithm')
+                            choices = ('dfs', 'bfs', 'dijkstra', 'bellman_ford', 'kruskal'), metavar = 'algorithm')
     args = args_parser.parse_args()
       
     # Execute the requested demonstration code
@@ -184,5 +192,7 @@ if __name__ == '__main__':
         demoDijkstra()
     elif args.a == 'bellman_ford':
         demoBellmanFord()
+    elif args.a == 'kruskal':
+        demoKruskal()
     else:
         print('Demonstration code for algorithm \'', args.a, '\' is missing', sep = '')

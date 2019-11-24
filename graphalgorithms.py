@@ -196,7 +196,10 @@ class GraphAlgorithms(object):
         -
         
     Methods:
-        dijkstra(self, g, s) : Implementation of the Dijkstra's algorithm.
+        dijkstra(self, G, l, s) : Implementation of the Dijkstra's algorithm.
+        bfs(self, G, s): Implementation of the Breadth-first search algorithm.
+        dfs(self, G): Implementation of the Depth-first search algorithm.
+        bellmanFord(self, G, l, s): Implementation of the Bellman-Ford algorithm.
     '''
 
     def __init__(self):
@@ -416,3 +419,43 @@ class GraphAlgorithms(object):
                         previous[v] = u
                     
         return previous, distance
+
+
+class MST(object):
+    '''
+    Minimum Spanning Tree algorithms implementation. See methods for the implemented 
+    algorithms.
+
+    Args:
+        -
+
+    Attributes:
+        -
+        
+    Methods:
+        kruskal(self, G, w) : Implementation of the Kruskal's algorithm.
+    '''
+
+    def __init__(self):
+  
+        raise NotImplementedError()
+        
+    
+    def kruskal(self, G, w):
+        '''
+        Kruskals algorithm for finding the Minimum Spanning Tree in a graph.
+        Returns the MST and its total weight.
+
+        Args:
+            G (tuple(list,dictionary)): The graph G = (V,E).
+            w (dictionary): The edges weights of the graph G = (V,E).
+
+        Returns:
+            mst (Graph): The minimum spanning tree.
+            weights (dictionary): The edges weights of the minimum spanning tree.
+            total_weight (float): The total weight of the minimum spanning tree.
+        '''
+        
+        raise NotImplementedError()
+    
+    
