@@ -127,6 +127,42 @@ class Graph(object):
         return self.__lengths
         
         
+    def sortEdges(self):
+        '''
+        Returns the edges sorted in increasing lengths, for the graph (le from the G = (V, E)).
+        
+        Args:
+            -
+
+        Raises:
+            -
+
+        Returns:
+            sorted_edges (dictionary): { edge: edge_length, ...}
+
+        '''
+        
+        sorted_edges = {}
+        
+        edges = []
+        lengths = []
+        
+        # Decompose __lengths dictionary to edges and lengths
+        for source, destinations in self.__lengths.items():
+            for destination in destinations:
+                edges.append(source + destination)
+                lengths.append(destinations[destination])
+                
+        # Get sorted indices on increasing lengths order
+        sorted_indices = sorted(range(len(lengths)), key = lambda k: lengths[k])
+        
+        # Create sorted edges dictionary
+        for i in sorted_indices:
+            sorted_edges[edges[i]] = lengths[i]
+        
+        return sorted_edges
+        
+        
 
 class UpdatablePriorityQueue(PriorityQueue):
     '''
@@ -438,7 +474,7 @@ class MST(object):
 
     def __init__(self):
   
-        raise NotImplementedError()
+        pass
         
     
     def kruskal(self, G, w):
@@ -447,15 +483,66 @@ class MST(object):
         Returns the MST and its total weight.
 
         Args:
-            G (tuple(list,dictionary)): The graph G = (V,E).
+            G (Graph): The graph G = (V,E).
             w (dictionary): The edges weights of the graph G = (V,E).
 
         Returns:
-            mst (Graph): The minimum spanning tree.
-            weights (dictionary): The edges weights of the minimum spanning tree.
+            mst (dictionary): The minimum spanning tree {edge: edge_length, ...}
             total_weight (float): The total weight of the minimum spanning tree.
         '''
         
-        raise NotImplementedError()
+        # Initialize returned objects
+        mst = {}
+        total_weight = 0
+        
+        # Initialize parent pointer and rank
+        parent = {v: v for v in G.getVertices()}
+        rank = {v: 0 for v in G.getVertices()}
+
+        # Find the parent of a vertex v  
+        def find(v):
+            
+            nonlocal parent
+            
+            if v != parent[v]:
+                parent[v] = find(parent[v])
+        
+            return parent[v]
+            
+
+        # Find the roots of u and v, and set the parent of root_u to be the root_v
+        def union(u, v):
+
+            nonlocal parent
+            nonlocal rank
+            
+            root_u = find(u)
+            root_v = find(v)
+            
+            if root_u != root_v:  
+                if rank[root_u] > rank[root_v]:
+                    parent[root_v] = root_u
+                else:
+                    parent[root_u] = root_v
+                    if rank[root_u] == rank[root_v]:
+                        rank[root_v] += 1
+        
+        # Run Kruskal algorithm
+        sorted_edges = G.sortEdges()
+        
+        for e, l in sorted_edges.items():
+            
+            # Check if vertices are already connected, if not add to the MST
+            if find(e[0]) != find(e[1]):
+                union(e[0], e[1])
+                
+                mst[e] = l
+                total_weight += l
+                
+        return mst, total_weight
+                
+      
+        
+        
     
     

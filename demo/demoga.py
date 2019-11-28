@@ -168,7 +168,25 @@ def demoKruskal():
     Example code for the Kruskal algorithm.
     '''
     
-    raise NotImplementedError()
+    # Define the vertices and edges of the graph, in the structure 
+    # the class Graph expects them
+    vertices = ['A', 'B', 'C', 'D', 'E', 'F']   
+    edges_with_lengths = {'A': [('B', 5), ('C', 6), ('D', 4)], 
+                          'B': [('A', 5), ('C', 1), ('D', 2)],
+                          'C': [('A', 6), ('B', 1), ('D', 2), ('F', 3), ('E', 5)],
+                          'D': [('A', 4), ('B', 2), ('C', 2), ('F', 4)],
+                          'E': [('C', 5), ('F', 4)],
+                          'F': [('D', 4), ('C', 3), ('E', 4)]}
+                          
+    # Create the graph object G = (V, E) given the V and E
+    g = ga.Graph(vertices, edges_with_lengths)
+    
+    # Run Kruskal algorithm for the defined graph
+    mst, total_weight = ga.MST().kruskal(G = g, w = g.getLengths())
+     
+    print('Kruskal Minimum Spanning Tree, for the given graph:')
+    print('MST:', mst)
+    print('MST total weight:', total_weight)
     
 
 if __name__ == '__main__':

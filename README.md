@@ -5,6 +5,7 @@ Implementation of graph algorithms in python (file: `graphalgorithms.py`)
 * **Breadth-first search (BFS)**: BFS algorithm is an algorithm for finding the shortest paths in any graph G = (V,E) whose edges have unit length. The time complexity of the algorithm is O(|V|+|E|).
 * **Dijkstra's Algorithm**: Dijkstra's algorithm is an algorithm for finding the shortest paths in any graph G = (V,E) whose edges lengths are positive numbers. The time complexity of the algorithm is O((|V|+|E|)log|V|), when using a priority queue.
 * **Bellman-Ford Algorithm**: Bellman-Ford algorithm is an algorithm for finding the shortest paths in any graph G = (V,E) whose edges lengths can be also negative numbers. The time complexity of the algorithm is O((|V||E|).
+* **Kruskal Algorithm**: Kruskal algorithm is an algorithm for finding MSTs in an undirected graph G = (V,E). The time complexity of the algorithm is O((|E|log|V|).
 
 ## Demonstration
 Inside the `demo` folder there is a demonstration script (`demoga.py`), including usage examples for the `GraphAlgorithms` class.
@@ -12,13 +13,13 @@ Inside the `demo` folder there is a demonstration script (`demoga.py`), includin
 $python demoga.py -h
 usage: demoga.py [-h] -a algorithm
 
-Demonstration script for the GraphAlgorithms class
+Demonstration script for the Graph Algorithms
 
 optional arguments:
   -h, --help    show this help message and exit
   -a algorithm  demonstration algorithm
 
-Supported values for 'algorithm' are ('dfs', 'bfs', 'dijkstra', 'bellman_ford')
+Supported values for 'algorithm' are ('dfs', 'bfs', 'dijkstra', 'bellman_ford', 'kruskal')
 
 Example:
 python demoga.py -a dijkstra
@@ -93,6 +94,18 @@ Shortest path from 'S' to 'G' is: ['S', 'G'] with cost 8
 
 ``` 
 
+### Kruskal Demonstration Graph
+![](/images/demo_kruskal_graph.PNG?raw=true)
+
+In the running example, the Kruskal algorithm finds one of the MSTs for the input graph. The output of the algorithm is:
+```
+python demoga.py -a kruskal
+Kruskal Minimum Spanning Tree, for the given graph:
+MST: {'BC': 1, 'BD': 2, 'CF': 3, 'AD': 4, 'EF': 4}
+MST total weight: 14
+
+``` 
+
 ## Prerequisites
 1. [python 3.6](https://www.python.org/downloads/release/python-369/)
 
@@ -101,4 +114,4 @@ Shortest path from 'S' to 'G' is: ['S', 'G'] with cost 8
 2. *Algorithms. S. Dasgupta, C. Papadimitriou, U. Vazirani. Chapter 3, Decompositions of Graphs*
 3. *Algorithms. S. Dasgupta, C. Papadimitriou, U. Vazirani. Chapter 4, Paths in Graphs*
 4. *Algorith Design, 1st Edition. J. Kleinberg, E. Tardos. Chapter 3, Graphs*
-
+5. *Algorithms. S. Dasgupta, C. Papadimitriou, U. Vazirani. Chapter 5, Greedy Algorithms*
