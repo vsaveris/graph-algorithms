@@ -99,7 +99,7 @@ Shortest path from 'S' to 'G' is: ['S', 'G'] with cost 8
 
 In the running example, the Kruskal algorithm finds one of the MSTs for the input graph. The output of the algorithm is:
 ```
-python demoga.py -a kruskal
+$python demoga.py -a kruskal
 Kruskal Minimum Spanning Tree, for the given graph:
 MST: {'BC': 1, 'BD': 2, 'CF': 3, 'AD': 4, 'EF': 4}
 MST total weight: 14
