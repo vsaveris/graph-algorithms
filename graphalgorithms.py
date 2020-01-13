@@ -10,7 +10,7 @@ enail: vsaveris@gmail.com
 
 License: MIT
 
-Date last modified: 17.10.2019
+Date last modified: 12.01.2020
 
 Python Version: 3.6
 '''
@@ -542,7 +542,61 @@ class MST(object):
         return mst, total_weight
                 
       
+    def prim(self, G, w):
+        '''
+        Prim's algorithm for finding the Minimum Spanning Tree in a graph.
+        Returns the MST and its total weight.
+
+        Args:
+            G (Graph): The graph G = (V,E).
+            w (dictionary): The edges weights of the graph G = (V,E).
+
+        Returns:
+            mst (dictionary): The minimum spanning tree {edge: edge_length, ...}
+            total_weight (float): The total weight of the minimum spanning tree.
+        '''    
+
+        # Initializations
+        V = G[0]
+        E = G[1]
+
+        # Initialize distances as defined in the algorithm
+        cost = {key: float('inf') for key in V}
+        cost[V[0]] = 0
         
+        # Initialize the previous structure as defined in the algorithm
+        previous = {key: None for key in V}
         
+        # Updatable priority queue contains items of the type (priority, node)
+        priority_queue = UpdatablePriorityQueue()
+        # Initialize the queue as defined in the algorithm
+        for v in V:
+            priority_queue.put((cost[v], v))
+        
+        # Loop until all the nodes are explored
+        while not priority_queue.empty():
+            u = priority_queue.get()[1]
+            
+            # For all connected nodes v to the node u with length l
+            for v in E[u]:
+                
+                if cost[v] > w[u][v]:
+                    cost[v] = w[u][v]
+                    previous[v] = u
+                    E[v].remove(u)
+
+                    # Update priority
+                    priority_queue.updatePriority(v, cost[v])
+
+        # Create a dictionary with the MST
+        mst = {}
+        total_weight = 0
+        
+        for p in previous:
+            if previous[p] is not None:
+                mst[''.join(sorted(p + previous[p]))] = cost[p]
+                total_weight += cost[p]
+        
+        return mst, total_weight
     
-    
+  

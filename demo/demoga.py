@@ -187,18 +187,44 @@ def demoKruskal():
     print('Kruskal Minimum Spanning Tree, for the given graph:')
     print('MST:', mst)
     print('MST total weight:', total_weight)
+
+
+def demoPrim():
+    '''
+    Example code for the Prim's algorithm.
+    '''
+    # Define the vertices and edges of the graph, in the structure 
+    # the class Graph expects them
+    vertices = ['A', 'B', 'C', 'D', 'E', 'F']   
+    edges_with_lengths = {'A': [('B', 5), ('C', 6), ('D', 4)], 
+                          'B': [('A', 5), ('C', 1), ('D', 2)],
+                          'C': [('A', 6), ('B', 1), ('D', 2), ('F', 3), ('E', 5)],
+                          'D': [('A', 4), ('B', 2), ('C', 2), ('F', 4)],
+                          'E': [('C', 5), ('F', 4)],
+                          'F': [('D', 4), ('C', 3), ('E', 4)]}
+
+    # Create the graph object G = (V, E) given the V and E
+    g = ga.Graph(vertices, edges_with_lengths)
+    
+    # Run Prim's algorithm for the defined graph
+    mst, total_weight = ga.MST().prim(G = (g.getVertices(), g.getEdges()), w = g.getLengths())
+    
+    print('Prim\'s Minimum Spanning Tree, for the given graph:')
+    print('MST:', mst)
+    print('MST total weight:', total_weight)
     
 
 if __name__ == '__main__':
 
     # Parsing input arguments
     description_message = 'Demonstration script for the Graph Algorithms'
-    epilog_message = 'Supported values for \'algorithm\' are (\'dfs\', \'bfs\', \'dijkstra\', \'bellman_ford\', \'kruskal\')\n\n' +\
-                    'Example: \npython demoga.py -a dijkstra'
+    epilog_message = 'Supported values for \'algorithm\' are (\'dfs\', \'bfs\', \'dijkstra\', '+\
+        '\'bellman_ford\', \'kruskal\', \'prim\')\n\nExample: \npython demoga.py -a dijkstra'
+        
     args_parser = argparse.ArgumentParser(description = description_message, epilog = epilog_message,
                 formatter_class=argparse.RawTextHelpFormatter)
     args_parser.add_argument('-a', action = 'store', required = True, help = 'demonstration algorithm',
-                            choices = ('dfs', 'bfs', 'dijkstra', 'bellman_ford', 'kruskal'), metavar = 'algorithm')
+                            choices = ('dfs', 'bfs', 'dijkstra', 'bellman_ford', 'kruskal', 'prim'), metavar = 'algorithm')
     args = args_parser.parse_args()
       
     # Execute the requested demonstration code
@@ -212,5 +238,7 @@ if __name__ == '__main__':
         demoBellmanFord()
     elif args.a == 'kruskal':
         demoKruskal()
+    elif args.a == 'prim':
+        demoPrim()
     else:
         print('Demonstration code for algorithm \'', args.a, '\' is missing', sep = '')
