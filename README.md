@@ -6,6 +6,7 @@ Implementation of graph algorithms in python (file: `graphalgorithms.py`)
 * **Dijkstra's Algorithm**: Dijkstra's algorithm is an algorithm for finding the shortest paths in any graph G = (V,E) whose edges lengths are positive numbers. The time complexity of the algorithm is O((|V|+|E|)log|V|), when using a priority queue.
 * **Bellman-Ford Algorithm**: Bellman-Ford algorithm is an algorithm for finding the shortest paths in any graph G = (V,E) whose edges lengths can be also negative numbers. The time complexity of the algorithm is O((|V||E|).
 * **Kruskal Algorithm**: Kruskal algorithm is an algorithm for finding MSTs in an undirected graph G = (V,E). The time complexity of the algorithm is O((|E|log|V|).
+* **Prim's Algorithm**: Prim's algorithm is an algorithm for finding MSTs in an undirected graph G = (V,E). The time complexity of the algorithm is O((|V|+|E|)log|V|).
 
 ## Demonstration
 Inside the `demo` folder there is a demonstration script (`demoga.py`), including usage examples for the `GraphAlgorithms` class.
@@ -19,7 +20,7 @@ optional arguments:
   -h, --help    show this help message and exit
   -a algorithm  demonstration algorithm
 
-Supported values for 'algorithm' are ('dfs', 'bfs', 'dijkstra', 'bellman_ford', 'kruskal')
+Supported values for 'algorithm' are ('dfs', 'bfs', 'dijkstra', 'bellman_ford', 'kruskal', 'prim')
 
 Example:
 python demoga.py -a dijkstra
@@ -91,7 +92,6 @@ Shortest path from 'S' to 'D' is: ['S', 'G', 'F', 'A', 'E', 'B', 'C', 'D'] with 
 Shortest path from 'S' to 'E' is: ['S', 'G', 'F', 'A', 'E'] with cost 7
 Shortest path from 'S' to 'F' is: ['S', 'G', 'F'] with cost 9
 Shortest path from 'S' to 'G' is: ['S', 'G'] with cost 8
-
 ``` 
 
 ### Kruskal Demonstration Graph
@@ -103,7 +103,17 @@ $python demoga.py -a kruskal
 Kruskal Minimum Spanning Tree, for the given graph:
 MST: {'BC': 1, 'BD': 2, 'CF': 3, 'AD': 4, 'EF': 4}
 MST total weight: 14
+``` 
 
+### Prim's Demonstration Graph
+![](/images/demo_kruskal_graph.PNG?raw=true)
+
+In the running example, the Prim's algorithm finds one of the MSTs for the input graph. The output of the algorithm is:
+```
+$python demoga.py -a prim
+Prim's Minimum Spanning Tree, for the given graph:
+MST: {'BD': 2, 'BC': 1, 'AD': 4, 'EF': 4, 'CF': 3}
+MST total weight: 14
 ``` 
 
 ## Prerequisites
